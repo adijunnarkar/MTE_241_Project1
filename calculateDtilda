@@ -1,0 +1,6 @@
+function Dtilda_vector = calculateDtilda(mass_matrix, dampening_matrix, delta_t, beta, gamma)
+
+        Dtilda_vector = ((1-beta)/beta)* mass_matrix + (delta_t)* ((gamma-1) + (gamma*(1- beta)/beta)) * dampening_matrix;   
+    %end
+
+end
