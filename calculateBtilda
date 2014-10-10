@@ -1,0 +1,8 @@
+function Btilda_vector = calculateBtilda(mass_matrix, dampening_matrix, delta_t, beta, gamma)
+
+ 
+        Btilda_vector = (2/(beta * delta_t^2))* mass_matrix + ((2 * gamma)/(beta * delta_t)) * dampening_matrix;
+    
+ %   end
+
+end
