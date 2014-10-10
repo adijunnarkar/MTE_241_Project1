@@ -1,0 +1,92 @@
+close all;
+clear all;
+clc; 
+
+% Given values
+E = 10; 
+v = 0;
+k1 = 10; 
+c1 = 1;
+m2 = 10;
+F = 10;
+gamma = 3/2;
+beta = 8/5;
+deltat1= 0.01;
+deltat2 = 0.1;
+deltat3 = 1.0;
+
+%E = 10; 
+%v = 0;
+%k1 = 1; 
+%c1 = 0.1;
+%m2 = 0.01;
+%F = 1;
+%gamma = 1/2;
+%beta = 1/4;
+%deltat1= 0.01;
+%deltat2 = 0.1;
+%deltat3 = 0.1;
+
+% delta t matrix
+
+deltat_matrix = [ deltat1 ;
+                  deltat2 ;
+                  deltat3  ];
+              
+% coordinates of nodes
+x1 = 0;
+y1 = 0;
+x2 = 0;
+y2 = 1;
+
+% node matrix 
+node_matrix = [x1, y1;
+               x2, y2 ];
+ 
+% calculating force matrix
+% calculating wn, xi, wd, theta
+wn = sqrt(k1/m2);
+xi = c1 /(2 * m2 * wn);
+wd = wn * sqrt(1 - xi^2);
+theta = atan(xi / sqrt(1 - xi^2));
+
+%calculating u2 at current time
+
+%u2_t = calculateU2_t(wn, xi, xd, theta);
+
+% displacement vector at current time
+disp_current_t = zeros(size( node_matrix ,1), 1);
+
+% velocity vector at current time
+vel_current_t = zeros(size( node_matrix ,1), 1);
+
+% acceleration vector at current time
+acc_current_t = zeros(size( node_matrix ,1), 1);
+
+% force vector at next time
+force_next_t = zeros(size( node_matrix ,1), 1);
+
+%mass matrix
+mass_matrix = zeros(size( node_matrix ,1));
+for i = 1: size(mass_matrix, 1)
+    mass_matrix(i,i)= m2;
+    
+end
+
+%dampening matrix 
+dampening_matrix = [ c1, -c1;
+                    -c1, c1 ];
+                
+                
+stiffness_matrix = [k1, -k1;
+                   -k1, k1] ;
+
+
+
+disp_next_t = calculateImplicitDispNextTime(mass_matrix, stiffness_matrix, dampening_matrix, deltat_matrix, beta, gamma, disp_current_t, vel_current_t, acc_current_t, force_next_t);
+
+
+
+
+ 
+
