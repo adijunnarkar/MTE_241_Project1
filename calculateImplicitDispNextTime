@@ -1,0 +1,21 @@
+function disp_next_t = calculateImplicitDispNextTime(mass_matrix, stiffness_matrix, dampening_matrix, deltat_matrix, beta, gamma, disp_current_t, vel_current_t, acc_current_t, force_next_t)
+
+    disp_next_t = zeros(size(mass_matrix, 1),size(deltat_matrix, 1));
+    dummy_vec = zeros(size(deltat_matrix, 1), 1);
+    
+    for i = 1: size(deltat_matrix, 1)
+        delta_t = deltat_matrix(i,1);
+        
+        Atilda = calculateAtilda(mass_matrix, stiffness_matrix, dampening_matrix, delta_t, beta, gamma);
+        Btilda = calculateBtilda(mass_matrix, dampening_matrix, delta_t, beta, gamma);
+        Ctilda = calculateCtilda(mass_matrix, dampening_matrix, delta_t, beta, gamma);
+        Dtilda = calculateDtilda(mass_matrix, dampening_matrix, delta_t, beta, gamma);
+        display(Atilda);
+        display(Btilda);
+        display(Ctilda);
+        display(Dtilda);
+        display(force_next_t + Dtilda * acc_current_t);
+        display(Btilda * vel_current_t + Ctilda * disp_current_t);
+        dummy_vec = force_next_t + Dtilda * acc_current_t + Btilda * vel_current_t + Ctilda * disp_current_t;
+        disp_next_t(:,i) = inv(Atilda) * (force_next_t + Dtilda * acc_current_t + Btilda * vel_current_t + Ctilda * disp_current_t);
+    end
