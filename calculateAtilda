@@ -1,0 +1,7 @@
+function Atilda_vector = calculateAtilda(mass_matrix, stiffness_matrix, dampening_matrix, delta_t, beta, gamma)
+
+        Atilda_vector = (2/(beta * (delta_t^2)))* mass_matrix + stiffness_matrix + ((2 * gamma)/(beta * delta_t)) * dampening_matrix;
+    
+  %  end
+
+end
